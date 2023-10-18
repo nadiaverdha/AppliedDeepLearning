@@ -1,0 +1,53 @@
+
+Notes
+
+https://paperswithcode.com/task/image-captioning
+https://arxiv.org/pdf/1502.03044v3.pdf
+
+
+https://github.com/visinf/cos-cvae
+
+
+PEDESTRIAN DETECTION
+
+
+1st paper
+
+
+F2DNET
+
+
+two stage detectors - state of the art in the object detection as well as pedestrian detection, however, they are still
+
+inefficient
+
+f2dnet - a novel two stage-detection architecture which eliminates redundancy of current
+two stage detectors by replacing the region proposal network with our focal detection network and boundinh
+box head with our fast suppressio head
+- different from existing single and two-stage detectors
+
+Current two-stage object detection architectures employ a
+weak region proposal network followed by strong bounding
+box heads. We take a different approach and use a strong
+detection head succeeded by a light suppression head (filtering out FP).
+This may lead to faster computations.
+
+
+
+
+PEDESTRON
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

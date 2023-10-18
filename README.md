@@ -20,16 +20,24 @@ Despite achieving good performance through different models the main problem for
 
 ### Dataset
 
-### Method
+For my project I decided to work with the CityPersons dataset which consists of 5000 images in total, 2975 for training and 500 and 1575 for validation and testing specifically. According to the dataset descriptions I have read, there are 7 pedestrians on image per average and the visible-region and full-body annotations is provided.
 
 
 ### Work - Breakdown
 
+- ) Dataset Collection - since the dataset is already provided, I am supposed to just download it and prepare it for my model
+
+- ) Design and build of a model - I think this is going to be the most difficult part and it is probably going to take me up to 1 week.
+
+- ) Train of model  - We all know that training Neural Networks can be quite some work. I am going to use Google Collab and GPU there, so I hope it won't take more than 2 days. Here I take into consideration that running my model may not work the first time I try it out.
+
+- ) Fine Tuning - This may take me 3 days
+
+- ) Build Application - I am quite unsure what kind of application to build, maybe a website where I can upload images from test set and show how accurate my model can be....
 
 
-
-
-
+- ) Report & Presentation - 1 day
+ 
 
 
 
