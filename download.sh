@@ -1,2 +1,2 @@
-wget https://drive.google.com/file/d/1ZiF1IoeExPcn9V9L78X6jEYuMxR96OLO/view -O data.zip
-
+wget https://automl-mm-bench.s3.amazonaws.com/flickr30k.zip -O data.zip
+unzip data.zip
