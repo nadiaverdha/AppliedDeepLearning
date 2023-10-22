@@ -37,7 +37,7 @@ At first I wanted to use the COCO dataset for my project but then I decided agai
 
 ### References
 
-
+```
 [Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf)
 
 @article{Show, Attend and Tell,
@@ -50,12 +50,14 @@ Generation with Visual Attention},
 
 [VLP](https://arxiv.org/pdf/1909.11059v3.pdf)
 
-@article{VLP,
-  title={Unified Vision-Language Pre-Training for Image Captioning and VQA,
+@article{zhou2019vlp,
+  title={Unified Vision-Language Pre-Training for Image Captioning and VQA},
   author={Luowei Zhou, Hamid Palangi, Lei Zhang, Houdong Hu, Jason J. Corso, Jianfeng Gao},
-  journal={arXiv preprint 	arXiv:1909.11059},
+  journal={arXiv preprint arXiv:1909.11059},
   year={2019}
 }
+```
+
 
 
 
