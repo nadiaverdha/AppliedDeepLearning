@@ -20,17 +20,17 @@ According to my research CNN-RNN model combinations are used quite often for thi
 
 ### Dataset
 At first I wanted to use the COCO dataset for my project but then I decided against it due to its large volume of over 1 million and half captions describing over 330000 images. Even though, I am going to use Google Colab Pro Version for this project, computation might still be a problem when training neural networks. 
-Therefore, I decided to user the Flickr30k dataset. It contains around 31000 images collected from Flickr, together with 5 reference sentences provided by human annotators.
+Therefore, I decided to use the Flickr30k dataset. It contains around 31000 images collected from Flickr, together with 5 reference sentences provided by human annotators.
 
 
 ### Work-Breakdown Structure
 
-- Dataset Collection: I will use an already available dataset
+- Dataset Collection: I will use an already available dataset.
 - Design and build of a model: I believe this will be the most challenging part of the project. It will require a lot of try and errors from my side and I think it might take up to 1 week.
-- Train of model: As I plan to use GPU of Google Colab I hope it won't take more than 3 days, considering that my model might not run on the first try
-- Fine Tuning: This might also take me up to 1 week, as I have to do a lot of research and consider methods to improve my model
-- Application: This might take up to 5 days. I will probably build a website where I can upload a picture and it will give as output a caption describing it
-- Report and Presentation: 2 days
+- Train of model: As I plan to use GPU of Google Colab I hope it won't take more than 3 days, considering that my model might not run on the first try.
+- Fine Tuning: This might also take me up to 1 week, as I have to do a lot of research and consider methods to improve my model.
+- Application: This might take up to 5 days. I will probably build a website where I can upload a picture and it will give as output a caption describing it.
+- Report and Presentation: 2 days.
 
 
 ### References
