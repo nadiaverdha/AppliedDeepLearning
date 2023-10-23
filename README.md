@@ -11,7 +11,7 @@ Having always been fascinated by these two branches, I decided to concentrate fo
 
 ### Related Work
 
-[Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf) by Kelvin Xu et al. which was published back on 2015 served as a good introduction to this topic. It suggests a CNN-RNN(Convolutional Neural Network - Recurrent Neural Network) model for generating image captions for Flickr30k and COCO datasets. Another interesting paper I read was [VLP](https://arxiv.org/pdf/1909.11059v3.pdf) by Zhou Luowei et al. which proposes a unified decoder-encoder model that uses a pre-trained model on another dataset, fine tunes it, and uses it to generate captions for COCO and Flickr30k datasets.
+[Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf) by Kelvin Xu et al. which was published back on 2015 served as a good introduction to this topic. It suggests a CNN-RNN(Convolutional Neural Network - Recurrent Neural Network) model for generating image captions for Flickr30k and COCO datasets. Another interesting paper I read was [VLP](https://arxiv.org/pdf/1909.11059v3.pdf) by Zhou Luowei et al. which proposes a unified decoder-encoder model that uses a model pre-trained  on another dataset, fine tunes it, and then uses it to generate captions for COCO and Flickr30k datasets.
 
 
 ### Approach
@@ -30,7 +30,7 @@ Therefore, I decided to user the Flickr30k dataset. It contains around 31000 ima
 - Train of model: As I plan to use GPU of Google Colab I hope it won't take more than 3 days, considering that my model might not run on the first try
 - Fine Tuning: This might also take me up to 1 week, as I have to do a lot of research and consider methods to improve my model
 - Application: This might take up to 5 days. I will probably build a website where I can upload a picture and it will give as output a caption describing it
-- Report and Presentation: 1 day
+- Report and Presentation: 2 days
 
 
 ### References
