@@ -11,9 +11,7 @@ Having always been fascinated by these two branches, I decided to concentrate fo
 
 ### Related Work
 
-[Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf) which was published back on 2015 served as a good introduction to this topic. It suggests a CNN-RNN(Convolutional Neural Network - Recurrent Neural Network) model for generating image captions for Flickr30k and COCO datasets.
-
-Another interesting paper I read was [VLP](https://arxiv.org/pdf/1909.11059v3.pdf) which combines an already pre-trained model on another dataset with fine-tuning techniques to generate captions for COCO and Flickr30k datasets.
+[Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf) by Kelvin Xu et al. which was published back on 2015 served as a good introduction to this topic. It suggests a CNN-RNN(Convolutional Neural Network - Recurrent Neural Network) model for generating image captions for Flickr30k and COCO datasets. Another interesting paper I read was [VLP](https://arxiv.org/pdf/1909.11059v3.pdf) by Zhou Luowei et al. which proposes a unified decoder-encoder model that uses a pre-trained model on another dataset, fine tunes it, and uses it to generate captions for COCO and Flickr30k datasets.
 
 
 ### Approach
