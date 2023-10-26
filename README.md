@@ -26,10 +26,10 @@ Therefore, I decided to use the Flickr30k dataset. It contains around 31000 imag
 ### Work-Breakdown Structure
 
 - Dataset Collection: I will use an already available dataset.
-- Design and build of a model: I believe this will be the most challenging part of the project. It will require a lot of try and errors from my side and I think it might take up to 1 week.
+- Design and build of a model: I believe this will be the most challenging part of the project. It will require a lot of try and errors from my side and I think it might take up to 2 weeks.
 - Train of model: As I plan to use GPU of Google Colab I hope it won't take more than 3 days, considering that my model might not run on the first try.
 - Fine Tuning: This might also take me up to 1 week, as I have to do a lot of research and consider methods to improve my model.
-- Application: This might take up to 5 days. I will probably build a website where I can upload a picture and it will give as output a caption describing it.
+- Application: This might take up to 1 week. I will probably build a website where I can upload a picture and it will give as output a caption describing it.
 - Report and Presentation: 2 days.
 
 
