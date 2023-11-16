@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import torch
 import torch.utils.data as data
-from vocabulary import Vocabulary
+from vocab import Vocabulary
 from PIL import Image
 import numpy as np
 from tqdm import tqdm
@@ -17,10 +17,12 @@ from torch.utils.data import DataLoader
 
 
 def preprocessing_transforms():
+    #basically standard values found on pytorch docu
     return v2.Compose([
         v2.Resize((256, 256)),
         v2.CenterCrop(224),
-        v2.ToTensor(),
+        # v2.ToTensor(),
+        v2.Compose([v2.ToImage(), v2.ToDtype(torch.float32, scale=True)]),
         v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
 
@@ -33,7 +35,7 @@ def denormalize(image):
 
 
 class FlickrDataset(data.Dataset):
-    def __init__(self,captions_file, transform ,vocab,images_folder):
+    def __init__(self,captions_file, transform,vocab,images_folder):
 
         self.images_folder = images_folder
         self.transform = transform
@@ -43,12 +45,10 @@ class FlickrDataset(data.Dataset):
             for i, line in enumerate(file):
                 if i==0:
                     continue
-
                 sample = line.strip().lower().split(',')
                 image_id = sample[2].split('/')[1]
                 caption = sample[1]
                 caption = '<sos>' + caption +'<eos>'
-
                 words = vocab.splitter(caption)
                 word_ids = [vocab.word_to_idx(word) for word in words]
 
@@ -61,8 +61,7 @@ class FlickrDataset(data.Dataset):
 
     def __getitem__(self, idx):
         sample = self.samples[idx]
-        img_id =  os.path.join(self.images_folder, sample['image_id'])
-
+        img_id = os.path.join(self.images_folder, sample['image_id'])
         try:
             image = Image.open(img_id).convert('RGB')
         except FileNotFoundError:
@@ -74,11 +73,9 @@ class FlickrDataset(data.Dataset):
         return image, sample['caption']
 
 
-def get_data_loader(dataset,batch_size,num_workers):
+def get_data_loader(dataset,batch_size):
         return DataLoader(dataset=dataset, batch_size= batch_size,
-                          num_workers=num_workers,pin_memory=True, shuffle=True,)
-
-
+                          num_workers=3,pin_memory=True, shuffle=True,  collate_fn= None)
 
 
 
