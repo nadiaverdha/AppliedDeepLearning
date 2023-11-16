@@ -6,12 +6,9 @@ import regex as re
 from nltk.tokenize import RegexpTokenizer
 import csv
 
-
-
 class Vocabulary():
-    def __init__(self,sentence_splitter = None, vocab_file='./vocab.txt',
-                 captions_file='./flickr30k_processed/train.csv',vocab_size = 5000):
-
+    def __init__(self,sentence_splitter = None, vocab_file='vocab.txt',
+                 captions_file='./flickr30k_processed/train.csv',vocab_size = 500):
         self.captions_file = captions_file
         self.vocab_file = vocab_file
         # predefined tokens
@@ -24,7 +21,7 @@ class Vocabulary():
         self.index2word = {}
         self.counter = Counter()
 
-        self.vocab_size  = vocab_size
+        self.vocab_size = vocab_size
         self.size = 0
 
         if sentence_splitter is None:
@@ -35,7 +32,6 @@ class Vocabulary():
 
     def add_caption(self,caption):
         self.counter.update(self.splitter(caption))
-
 
     def build_vocab(self):
         with open(self.captions_file, 'r', encoding='utf-8') as file:
@@ -59,7 +55,7 @@ class Vocabulary():
         words = self.counter.most_common(self.vocab_size - 4)
 
         for idx,(word,_) in enumerate(words):
-            self.word2index[word] = idx +4
+            self.word2index[word] = idx + 4
             self.index2word[idx+4] = word
         self.size = len(self.word2index)
 
