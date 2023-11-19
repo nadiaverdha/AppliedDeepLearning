@@ -8,7 +8,7 @@ import csv
 
 class Vocabulary():
     def __init__(self,sentence_splitter = None, vocab_file='vocab.txt',
-                 captions_file='./flickr30k_processed/train.csv',vocab_size = 500):
+                 captions_file='./flickr30k_processed/train.csv',vocab_size = 5000):
         self.captions_file = captions_file
         self.vocab_file = vocab_file
         # predefined tokens
@@ -28,7 +28,6 @@ class Vocabulary():
             word_regex = r'(?:\w+|<\w+>)'
             sentence_splitter = RegexpTokenizer(word_regex).tokenize
         self.splitter = sentence_splitter
-
 
     def add_caption(self,caption):
         self.counter.update(self.splitter(caption))
@@ -87,6 +86,8 @@ class Vocabulary():
                 word, index = line[0], line[1]
                 self.word2index[word] = int(index)
                 self.index2word[int(index)] = word
+
+
 
 
 
