@@ -14,14 +14,14 @@ from collections import defaultdict
 from nltk.tokenize import RegexpTokenizer
 from torchvision.transforms import v2
 from torch.utils.data import DataLoader
-
+from torch.nn.utils.rnn import pad_sequence
 
 def preprocessing_transforms():
     #basically standard values found on pytorch docu
     return v2.Compose([
         v2.Resize((256, 256)),
         v2.CenterCrop(224),
-        # v2.ToTensor(),
+        v2.ToTensor(),
         v2.Compose([v2.ToImage(), v2.ToDtype(torch.float32, scale=True)]),
         v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
@@ -51,9 +51,7 @@ class FlickrDataset(data.Dataset):
                 caption = '<sos>' + caption +'<eos>'
                 words = vocab.splitter(caption)
                 word_ids = [vocab.word_to_idx(word) for word in words]
-
                 sample = {'image_id':image_id, 'caption':torch.LongTensor(word_ids)}
-
                 self.samples.append(sample)
 
     def __len__(self):
@@ -72,10 +70,23 @@ class FlickrDataset(data.Dataset):
             image = self.transform(image)
         return image, sample['caption']
 
+#by introducing padding I will make sure that all my captions have the same length
+class Padding:
+    def __init__(self,pad_idx, batch_first = True):
+        self.pad_idx = pad_idx
+        self.batch_first  = batch_first
 
-def get_data_loader(dataset,batch_size):
+    def __call__(self,batch):
+        imgs = [item[0].unsqueeze(0) for item in batch]
+        imgs = torch.cat(imgs,dim = 0)
+
+        captions = [item[1] for item in batch]
+        captions = pad_sequence(captions,batch_first=self.batch_first,padding_value=self.pad_idx)
+        return imgs,captions
+
+def get_data_loader(dataset,batch_size = 32,pad_index = 0):
         return DataLoader(dataset=dataset, batch_size= batch_size,
-                          num_workers=3,pin_memory=True, shuffle=True,  collate_fn= None)
+                          num_workers=3,pin_memory=True, shuffle=True,  collate_fn= Padding(pad_idx=pad_index,batch_first=True))
 
 
 
