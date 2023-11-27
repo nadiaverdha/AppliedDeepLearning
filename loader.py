@@ -36,7 +36,6 @@ def denormalize(image):
 
 class FlickrDataset(data.Dataset):
     def __init__(self,captions_file, transform,vocab,images_folder):
-
         self.images_folder = images_folder
         self.transform = transform
         self.captions_file = captions_file
@@ -65,7 +64,6 @@ class FlickrDataset(data.Dataset):
         except FileNotFoundError:
             print(f'Could not find image {img_id}')
             image = Image.new('RGB',(256,256))
-
         if self.transform:
             image = self.transform(image)
         return image, sample['caption']
@@ -74,15 +72,16 @@ class FlickrDataset(data.Dataset):
 class Padding:
     def __init__(self,pad_idx, batch_first = True):
         self.pad_idx = pad_idx
-        self.batch_first  = batch_first
+        self.batch_first = batch_first
 
     def __call__(self,batch):
         imgs = [item[0].unsqueeze(0) for item in batch]
         imgs = torch.cat(imgs,dim = 0)
 
         captions = [item[1] for item in batch]
+        lengths = [len(cap) for cap in captions]
         captions = pad_sequence(captions,batch_first=self.batch_first,padding_value=self.pad_idx)
-        return imgs,captions
+        return imgs,captions,lengths
 
 def get_data_loader(dataset,batch_size = 32,pad_index = 0):
         return DataLoader(dataset=dataset, batch_size= batch_size,

@@ -1,79 +1,59 @@
-# The model is going to consist of a encoder (CNN) & decoder (RNN)
-
 import torch
 import torch.nn as nn
 from torchvision import models
+from torch.nn.utils.rnn import pack_padded_sequence
 
 
 class EncoderCNN(nn.Module):
-    def __init__(self,image_emb_dim, device):
+    def __init__(self,embed_size,device):
         super(EncoderCNN,self).__init__()
         self.device = device
-        self.image_emb_dim = image_emb_dim
-        print(f"Encoder:\n \
-                       Encoder dimension: {self.image_emb_dim}")
-
         resnet = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
-        #freezing the parameters
+        # freezing the parameters
         for param in resnet.parameters():
             param.requires_grad_(False)
+        modules = list(resnet.children())[:-1] #removing the last fc layer
 
-        #removing the classification head of the pretrained model
-        modules = list(resnet.children())[:-1]
         self.resnet = nn.Sequential(*modules)
-
-        #final classifier
-        self.fc = nn.Linear(resnet.fc.in_features,self.image_emb_dim)
+        self.linear = nn.Linear(resnet.fc.in_features,embed_size)
+        self.bn = nn.BatchNorm1d(embed_size, momentum=0.01)
 
     def forward(self,images):
-        features = self.resnet(images)
+        with torch.no_grad():
+            features = self.resnet(images)
         features = features.reshape(features.size(0),-1).to(self.device)
-        features = self.fc(features).to(self.device)
+        features = self.bn(self.linear(features))
         return features
 
+
 class DecoderRNN(nn.Module):
-    # the decoder takes as input for the LTSM layer the concatenation of features created by the encoding layer
-    # and the embedded captions obtained from the embedding layer
-    # final classifier - linear layer w/ output dimension of the size of vocab
-    def __init__(self, image_emb_dim,word_emb_dim,hidden_dim,num_layers,vocab_size,device):
+    def __init__(self,embed_size,hidden_size,vocab_size,num_layers,max_seq_length):
+        #setting the hyperparameters and building the layers
         super(DecoderRNN,self).__init__()
-        self.image_emb_dim = image_emb_dim
-        self.word_emb_dim = word_emb_dim
-        self.hidden_dim = hidden_dim
-        self.num_layers = num_layers
-        self.vocab_size = vocab_size
-        self.device = device
+        self.embed = nn.Embedding(vocab_size,embed_size)
+        self.lstm = nn.LSTM(embed_size,hidden_size,num_layers,batch_first=True)
+        self.linear = nn.Linear(hidden_size,vocab_size)
+        self.max_seq_length = max_seq_length
 
-        #the following states represent the memory of the model
-        self.hidden_state_0 = nn.Parameter(torch.zeros((self.num_layers,1,self.hidden_dim)))
-        self.cell_state_0 = nn.Parameter(torch.zeros((self.num_layers,1,self.hidden_dim)))
+    def forward(self,features,captions, lengths):
+        #decoding image vector and generating captions
+        embeddings = self.embed(captions)
+        embeddings = torch.cat((features.unsqueeze(1),embeddings),1)
+        packed = nn.utils.rnn.pack_padded_sequence(embeddings,lengths,batch_first = True,enforce_sorted=False,)
+        hiddens,_ = self.lstm(packed)
+        outputs = self.linear(hiddens[0])
+        return outputs
 
-        print(f"Decoder:\n \
-                       Encoder Size:  {self.image_emb_dim},\n \
-                       Embedding Size: {self.word_emb_dim},\n \
-                       LSTM Capacity: {self.hidden_dim},\n \
-                       Number of layers: {self.num_layers},\n \
-                       Vocabulary Size: {self.vocab_size},\n \
-                       ")
-
-        self.lstm = nn.LSTM(self.image_emb_dim+self.word_emb_dim, self.hidden_dim,num_layers = self.num_layers,bidirectional=False)
-
-        #fully-connected layer
-        self.fc = nn.Sequential(nn.Linear(self.hidden_dim,self.vocab_size),
-                                nn.LogSoftmax(dim=2))
-
-    #forward operation of decoder.
-    # the input is passed through LSTM and then through the linear layer
-    def forward(self,embedded_captions, features,):
-        lstm_input = torch.cat((embedded_captions,features),dim = 2)
-
-        output,(hidden,cell) = self.lstm(lstm_input,(hidden,cell))
-        output = output.to(self.device)
-        output = self.fc(output) # length = 1,batch,vocab_size
-        return output,(hidden,cell)
-
-
-def get_acc(output,target):
-    probability = torch.exp(output)
-    equality = (target ==probability.max(dim = 1))[1]
-    return equality.float().mean()
+    def sample(self,features,states = None):
+        #generates caption using greedy search
+        sample_ids = []
+        inputs = features.unsqueeze(1)
+        for i in range(self.max_seq_length):
+            hiddens,states = self.lstm(inputs,states)
+            outputs = self.linear(hiddens.squeeze(1))
+            _,predicted = outputs.max(1)
+            sample_ids.append(predicted)
+            inputs = self.embed(predicted)
+            inputs =inputs.unsqueeze(1)
+        sample_ids = torch.stack(sample_ids,1)
+        return sample_ids
