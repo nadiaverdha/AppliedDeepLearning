@@ -61,9 +61,11 @@ class Attention(nn.Module):
 
 class DecoderRNN(nn.Module):
     def __init__(self,num_features, embedding_dim,hidden_dim, vocab_size,p = 0.5):
+        super(DecoderRNN,self).__init__()
         self.num_features = num_features
         self.embedding_dim = embedding_dim
         self.hidden_dim = hidden_dim
+        self.vocab_size = vocab_size
         #for scaling the inputs to softmax
         self.sample_temp = 0.5
 
