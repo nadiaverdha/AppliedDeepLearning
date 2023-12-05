@@ -35,10 +35,11 @@ def denormalize(image):
 
 
 class FlickrDataset(data.Dataset):
-    def __init__(self,captions_file, transform,vocab,images_folder):
+    def __init__(self,captions_file, transform,vocab,images_folder,captions_per_image=5,):
         self.images_folder = images_folder
         self.transform = transform
         self.captions_file = captions_file
+        self.captions_per_image = captions_per_image
         self.samples = []
         with open(captions_file, 'r',encoding='utf-8') as file:
             for i, line in enumerate(file):
