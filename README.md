@@ -41,10 +41,10 @@ As mentioned above, [Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf
 
 ### Error Metric
 For reporting results of my implementation I used the so BLEU metric which is actually a standard in the image captioning generator architecture.
-| Paper | State of the art | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4|
-| --- | ------------------ | ------| ------| ------|------|
-| Header | Title |
-| Paragraph | Text |
+| Paper  | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4|
+| ---  | ------| ------| ------|------|
+| Show, Attend and Tell | 66.7 | 43.4| 28.8 | 19.1 
+| VLP |-| -| -| 31.1
 
 
 
