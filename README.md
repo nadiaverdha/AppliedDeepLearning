@@ -24,7 +24,7 @@ According to my research CNN-RNN model combinations are used quite often for thi
 At first I wanted to use the COCO dataset for my project but then I decided against it due to its large volume of over 1 million and half captions describing over 330000 images. Even though, I am going to use Google Colab Pro Version for this project, computation might still be a problem when training neural networks. 
 Therefore, I decided to use the Flickr30k dataset. It contains around 31000 images collected from Flickr, together with 5 reference sentences provided by human annotators.
 
-#### Work-Breakdown Structure
+#### Prediction of Work-Breakdown Structure 
 
 - Dataset Collection: I will use an already available dataset.
 - Design and build of a model: I believe this will be the most challenging part of the project. It will require a lot of try and errors from my side and I think it might take up to 2 weeks.
@@ -36,9 +36,12 @@ Therefore, I decided to use the Flickr30k dataset. It contains around 31000 imag
 
 ### Assignment II
 
+As mentioned above, [Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf)  was one of the main papers that served as a gate for me to the world of image captioning and I relied on it for the delivery of this project. Since it was my first time working with RNN and Attention Based models, my code was therefore heavily inspired by this paper but also by this Pytorch tutorial [a-PyTorch-Tutorial-to-Image-Captioning
+](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Image-Captioning).
 
-
-
+### Error Metric
+For reporting results of my implementation I used the so BLEU metric which is actually a standard in the image captioning generator architecture.
+Paper & BLEU-1 & BLEU-2
 
 
 
