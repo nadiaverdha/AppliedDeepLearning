@@ -5,6 +5,7 @@ Repository for Applied Deep Learning Course at TU Wien
 ## Topic: Computer Vision 
 ### Image Caption Generator
 
+----------------------------------------------------------------------------------------------------------------------------------------------------- Assignment I ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Nowadays, Computer Vision and Natural Language Processing have taken a huge step forward due to major advancements in the field of Deep Learning and large volumes of data available. Different types of tasks like image classification, object detection, caption generator, sentiment analysis etc., which before were thought impossible, can now be solved by smart models and computers. 
 Having always been fascinated by these two branches, I decided to concentrate for this project on the topic of `Image Captioning`, which actually lies at the intersection of Computer Vision and Natural Language Processing.
 
@@ -31,6 +32,22 @@ Therefore, I decided to use the Flickr30k dataset. It contains around 31000 imag
 - Fine Tuning: This might also take me up to 1 week, as I have to do a lot of research and consider methods to improve my model.
 - Application: This might take up to 1 week. I will probably build a website where I can upload a picture and it will give as output a caption describing it.
 - Report and Presentation: 2 days.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ### References
