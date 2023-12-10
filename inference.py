@@ -11,7 +11,6 @@ def beam_search(encoder, decoder, image_path, vocab,vocab_size, device,beam_size
 
     #how many possibilities will be considered
     k = beam_size
-
     #preprocessing image
     img = np.array(Image.open(image_path).convert('RGB'))
     img = np.array(Image.open(image_path).convert('RGB'))
