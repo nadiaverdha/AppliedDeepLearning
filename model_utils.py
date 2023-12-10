@@ -79,7 +79,7 @@ def train(train_loader,encoder, decoder, criterion, encoder_optimizer,decoder_op
 
     return np.mean(losses)
 
-def validate(val_loader,encoder, decoder, criterion,device):
+def validate(val_loader,encoder, decoder, criterion,device,alpha_c):
 
     losses = []
     decoder.eval()
@@ -125,6 +125,3 @@ def validate(val_loader,encoder, decoder, criterion,device):
           bleu3 = corpus_bleu(references, hypotheses, weights = (1.0/3.0, 1.0/3.0, 1.0/3.0, 0))
           bleu4 = corpus_bleu(references, hypotheses)
     return np.mean(losses), bleu1,bleu2, bleu3, bleu4
-
-
-
