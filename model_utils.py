@@ -39,8 +39,6 @@ def save_checkpoint(epoch, epochs_since_improvement, encoder, decoder, encoder_o
 
 
 
-
-
 def train(train_loader,encoder, decoder, criterion, encoder_optimizer,decoder_optimizer,device,grad_clip,alpha_c):
     losses = []
     decoder.train()
@@ -125,3 +123,45 @@ def validate(val_loader,encoder, decoder, criterion,device,alpha_c):
           bleu3 = corpus_bleu(references, hypotheses, weights = (1.0/3.0, 1.0/3.0, 1.0/3.0, 0))
           bleu4 = corpus_bleu(references, hypotheses)
     return np.mean(losses), bleu1,bleu2, bleu3, bleu4
+def evaluate_test(test_loader,encoder, decoder, criterion,device,alpha_c):
+
+    losses = []
+    decoder.eval()
+    encoder.eval()
+    references = list()  # true captions
+    hypotheses = list()  # predicted captions
+
+    with torch.no_grad():
+      for i, (imgs,caps,cap_lens,all_caps) in enumerate(tqdm(test_loader)):
+          imgs = imgs.to(device)
+          caps = caps.to(device)
+          cap_lens = cap_lens.to(device)
+          all_caps = all_caps
+          imgs = encoder(imgs)
+
+          scores, caps_sorted, decode_lengths, alphas = decoder(imgs, caps, cap_lens)
+          targets = caps_sorted[:, 1:]
+
+          scores_copy = scores.clone()
+          scores = pack_padded_sequence(scores, decode_lengths, batch_first=True,enforce_sorted=False).data
+          targets = pack_padded_sequence(targets, decode_lengths, batch_first=True,enforce_sorted=False).data
+
+          for j in range(len(all_caps)):
+            img_caps = all_caps[j].tolist()
+            img_captions = list(map(lambda caption: [word for word in caption if word != 1 and word !=0],img_caps))
+            references.append(img_captions)
+
+          _, preds = torch.max(scores_copy, dim=2)
+          preds = preds.tolist()
+          temp_preds = list()
+          for j, pred in enumerate(preds):
+                temp_preds.append(preds[j][:decode_lengths[j]])  # remove pads
+          hypotheses.extend(temp_preds)
+
+
+
+      bleu1 = corpus_bleu(references, hypotheses, weights = (1.0, 0, 0, 0))
+      bleu2 = corpus_bleu(references, hypotheses, weights = (0.5, 0.5, 0, 0))
+      bleu3 = corpus_bleu(references, hypotheses, weights = (1.0/3.0, 1.0/3.0, 1.0/3.0, 0))
+      bleu4 = corpus_bleu(references, hypotheses)
+    return bleu1,bleu2, bleu3, bleu4
