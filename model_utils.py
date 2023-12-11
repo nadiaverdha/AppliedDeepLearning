@@ -166,8 +166,6 @@ def evaluate_test(test_loader,encoder, decoder, criterion,device,alpha_c):
       bleu2 = corpus_bleu(references, hypotheses, weights = (0.5, 0.5, 0, 0))
       bleu3 = corpus_bleu(references, hypotheses, weights = (1.0/3.0, 1.0/3.0, 1.0/3.0, 0))
       bleu4 = corpus_bleu(references, hypotheses)
-<<<<<<< HEAD
+
     return bleu1,bleu2, bleu3, bleu4
-=======
-    return bleu1,bleu2, bleu3, bleu4
->>>>>>> 272780be87412f4b0076d47c777b53dccdee2193
+
