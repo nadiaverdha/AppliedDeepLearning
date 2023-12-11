@@ -36,8 +36,13 @@ Therefore, I decided to use the Flickr30k dataset. It contains around 31000 imag
 
 ### Assignment II
 
+#### Short Intro (Recap)
 As mentioned above, [Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf)  was one of the main papers that served for me as a gate to the world of image captioning and I relied on it for the delivery of this project. Since it was my first time working with RNN and Attention Based models, my code was therefore heavily inspired by this paper but also by this Pytorch tutorial [a-PyTorch-Tutorial-to-Image-Captioning
-](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Image-Captioning). Unfortunately, even though this paper does not represent the state-of-art,it still achieved pretty good results. 
+](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Image-Captioning). Even though this paper does not represent state-of-the-art, due to multiple mentions and implementations in various projects, I could understand its content more easily.
+
+
+
+
 
 #### Error Metric
 For reporting results of my implementation I used the so called BLEU metric which is actually a standard in the image captioning generator architecture. The table below shows the results of the implementations of the two previously mentioned papers:
