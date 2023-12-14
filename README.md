@@ -38,19 +38,21 @@ Therefore, I decided to use the Flickr30k dataset. It contains around 31000 imag
 
 #### Short Intro (Recap)
 As mentioned above, [Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf)  was one of the main papers that served for me as a gate to the world of image captioning and I relied on it for the delivery of this project. Since it was my first time working with RNN and Attention Based models, my code was therefore heavily inspired by this paper but also by this Pytorch tutorial [a-PyTorch-Tutorial-to-Image-Captioning
-](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Image-Captioning). Even though this paper does not represent state-of-the-art, due to multiple mentions and implementations in various projects, I could understand its content more easily.
+](https://github.com/sgrvinod/a-PyTorch-Tutorial-to-Image-Captioning). Even though this paper does not represent state-of-the-art, due to multiple mentions and implementations in various projects, I could understand its content more easily as compared to other ones.
 
 
 
 
 
 #### Error Metric
-For reporting results of my implementation I used the so called BLEU metric which is actually a standard in the image captioning generator architecture. The table below shows the results of the implementations of the two previously mentioned papers:
+For evaluation my models I used the so called BLEU metric which is actually a standard in the image captioning generator architectures. The table below summarizes the results of my implementatons, and the two papers mentioned above:
 | Implementation  | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4|
 | ---  | ------| ------| ------|------|
 | Show, Attend and Tell | 66.7 | 43.4| 28.8 | 19.1 
 | VLP |-| -| -| 31.1
-| My Model (w/o fine-tuning Encoder)  |54.76|34.11|20.44| 13.22
+| My Model I (w/o fine-tuning Encoder)  |54.46|34.82|21.12| 12.29 
+|My Model II (w/ fine-tuning Encoder) |55.78|35.71|22.13|13.82  
+|My Model III (Model II,trained w/ changed params for 3 more epochs ||||
 
 
 #### Actual Work-Breakdown Structure 
