@@ -52,7 +52,7 @@ For evaluation my models I used the so called BLEU metric which is actually a st
 | VLP |-| -| -| 31.1
 | My Model I (w/o fine-tuning Encoder)  |54.46|34.82|21.12| 12.29 
 |My Model II (w/ fine-tuning Encoder) |55.78|35.71|22.13|13.82  
-|My Model III (Model II,trained w/ changed params for 3 more epochs ||||
+|My Model III (Model II,trained w/ changed params for 3 more epochs) |55.93|34.82|21.12|13.71
 
 
 #### Actual Work-Breakdown Structure 
