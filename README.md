@@ -46,19 +46,22 @@ As mentioned above, [Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf
 
 #### Error Metric
 For evaluating my models I used the so-called BLEU metric which is actually a standard in the image captioning generator architectures. The table below summarizes the results of my implementatons (on test set):
+
 | Implementation  | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4|
+| ---  | ------| ------| ------|------|
 |Model I (w/o fine-tuning Encoder)  |54.46|34.82|21.12| 12.29 
 |Model II (w/ fine-tuning Encoder) |55.78|35.71|22.13|13.82  
 |Model III (Model II,trained w/ changed params for 3 more epochs) |55.93|34.82|21.12|13.71
 |Model IV ( sorted captions) |64.86|41.61|25.43|15.71
 
+For Model I, I basically implemented and used same parameters as in the Paper and did not fine-tune the encoder. However, somehow my results were different. A reason for that could be that I used Resnet50 as an Encoder while the paper uses VGGnet. In order to fine-tune my model and to somehow improve the results, I decided to fine-tune the used encoder. As seen in the table above this led to a slight improvement of the results. What was interesting during the training process of model II was that the model improved itself for the first few epochs and then it stagnated, so I decided,despite the fact, that early stopping was triggered, to continue training the model for a few other epochs. However, I changed some parameters, such as :
+- Decrease regularization parameter alpha_c and descreased the strength of regularization of the model
+- Decreased lr_decay_factor which might lead to the model converging more slowly
+Even though BLEU-4 of model III seemed to increase during training, this was not the case when evaluating the model on test set.
 
+Soon after fitting model III, I realized that something could be slightly wrong with my implementation. In the beginning I had not sorted captions that were inputed to the Decoder based on their length, and I realized that this might really be important, because sorting captions allows the captions to be aligned with each-other and leads to the model focusing on important parts and not in the <pad>s. Therefore, for my model IV I implemented this change. As a reasult, there was an increase in the BLEU-4 metric.
 
-
-
-
-
-
+The table below summarizes the results of two very good implementations and my model:
 
 | Implementation  | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4|
 | ---  | ------| ------| ------|------|
@@ -67,11 +70,7 @@ For evaluating my models I used the so-called BLEU metric which is actually a st
 |My Best Implementation ||||
 
 
-For Model I, I basically implemented and used same parameters as in the Paper and did not fine-tune the encoder. However, somehow my results were different. A reason for that could be that I used Resnet50 as an Encoder while the paper uses VGGnet. In order to fine-tune my model and to somehow improve the results, I decided to fine-tune the used encoder. As seen in the table above this led to a slight improvement of the results. What was interesting during the training process of model II was that the model improved itself for the first few epochs and then it stagnated, so I decided,despite the fact, that early stopping was triggered, to continue training the model for a few other epochs. However, I changed some parameters, such as :
-- Decrease regularization parameter alpha_c and descreased the strength of regularization of the model
-- Decreased lr_decay_factor which might lead to the model converging more slowly
-  
-Even though BLEU-4 of model III seemed to increase during training, this was not the case when evaluating the model on test set.
+
 
 #### Actual Work-Breakdown Structure 
 - Dataset Collection - I used an already available dataset
