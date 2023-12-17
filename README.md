@@ -45,14 +45,27 @@ As mentioned above, [Show, Attend and Tell](https://arxiv.org/pdf/1502.03044.pdf
 
 
 #### Error Metric
-For evaluating my models I used the so-called BLEU metric which is actually a standard in the image captioning generator architectures. The table below summarizes the results of my implementatons (on test set), and the two papers mentioned above:
+For evaluating my models I used the so-called BLEU metric which is actually a standard in the image captioning generator architectures. The table below summarizes the results of my implementatons (on test set):
+| Implementation  | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4|
+|Model I (w/o fine-tuning Encoder)  |54.46|34.82|21.12| 12.29 
+|Model II (w/ fine-tuning Encoder) |55.78|35.71|22.13|13.82  
+|Model III (Model II,trained w/ changed params for 3 more epochs) |55.93|34.82|21.12|13.71
+|Model IV ( sorted captions) |64.86|41.61|25.43|15.71
+
+
+
+
+
+
+
+
+
 | Implementation  | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4|
 | ---  | ------| ------| ------|------|
 | Show, Attend and Tell | 66.7 | 43.4| 28.8 | 19.1 
 | VLP |-| -| -| 31.1
-| My Model I (w/o fine-tuning Encoder)  |54.46|34.82|21.12| 12.29 
-|My Model II (w/ fine-tuning Encoder) |55.78|35.71|22.13|13.82  
-|My Model III (Model II,trained w/ changed params for 3 more epochs) |55.93|34.82|21.12|13.71
+|My Best Implementation ||||
+
 
 For Model I, I basically implemented and used same parameters as in the Paper and did not fine-tune the encoder. However, somehow my results were different. A reason for that could be that I used Resnet50 as an Encoder while the paper uses VGGnet. In order to fine-tune my model and to somehow improve the results, I decided to fine-tune the used encoder. As seen in the table above this led to a slight improvement of the results. What was interesting during the training process of model II was that the model improved itself for the first few epochs and then it stagnated, so I decided,despite the fact, that early stopping was triggered, to continue training the model for a few other epochs. However, I changed some parameters, such as :
 - Decrease regularization parameter alpha_c and descreased the strength of regularization of the model
