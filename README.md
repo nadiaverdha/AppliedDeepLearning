@@ -63,7 +63,11 @@ Soon after fitting model III, I realized that something could be slightly wrong 
 
 The table below summarizes the results of two very good implementations and my model:
 
-
+| Implementation  | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4|
+| ---  | ------| ------| ------|------|
+| Show, Attend and Tell | 66.7 | 43.4| 28.8 | 19.1 
+| VLP |-| -| -| 31.1
+|My Best Implementation ||||
 
 
 
