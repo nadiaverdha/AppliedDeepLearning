@@ -37,6 +37,8 @@ def save_checkpoint(epoch, epochs_since_improvement, encoder, decoder, encoder_o
 
 
 
+
+
 def train(train_loader,encoder, decoder, criterion, encoder_optimizer,decoder_optimizer,device,grad_clip,alpha_c):
     losses = []
     decoder.train()
@@ -48,7 +50,7 @@ def train(train_loader,encoder, decoder, criterion, encoder_optimizer,decoder_op
       cap_lens = cap_lens.to(device)
 
       imgs = encoder(imgs)
-      scores, caps_sorted, decode_lengths, alphas =  decoder(imgs, caps, cap_lens)
+      scores, caps_sorted, decode_lengths, alphas,sort_idx =  decoder(imgs, caps, cap_lens)
 
       #from <start> to <end>
       targets = caps_sorted[:,1:]
@@ -91,7 +93,7 @@ def validate(val_loader,encoder, decoder, criterion,device,alpha_c):
           all_caps = all_caps
           imgs = encoder(imgs)
 
-          scores, caps_sorted, decode_lengths, alphas = decoder(imgs, caps, cap_lens)
+          scores, caps_sorted, decode_lengths, alphas,sort_idx = decoder(imgs, caps, cap_lens)
           targets = caps_sorted[:, 1:]
 
           scores_copy = scores.clone()
@@ -101,6 +103,9 @@ def validate(val_loader,encoder, decoder, criterion,device,alpha_c):
           loss = criterion(scores, targets) + alpha_c * ((1. - alphas.sum(dim=1)) ** 2).mean()
 
           losses.append(loss.item())
+          sort_idx = sort_idx.cpu().numpy().tolist()
+          all_caps = [all_caps[i] for i in sort_idx]
+          
           for j in range(len(all_caps)):
             img_caps = all_caps[j].tolist()
             img_captions = list(map(lambda caption: [word for word in caption if word != 1 and word !=0],img_caps))
@@ -121,6 +126,7 @@ def validate(val_loader,encoder, decoder, criterion,device,alpha_c):
       bleu3 = corpus_bleu(references, hypotheses, weights = (1.0/3.0, 1.0/3.0, 1.0/3.0, 0))
       bleu4 = corpus_bleu(references, hypotheses)
     return np.mean(losses), bleu1,bleu2, bleu3, bleu4
+    
 def evaluate_test(test_loader,encoder, decoder, criterion,device,alpha_c):
 
     losses = []
@@ -137,13 +143,15 @@ def evaluate_test(test_loader,encoder, decoder, criterion,device,alpha_c):
           all_caps = all_caps
           imgs = encoder(imgs)
 
-          scores, caps_sorted, decode_lengths, alphas = decoder(imgs, caps, cap_lens)
+          scores, caps_sorted, decode_lengths, alphas,sort_idx = decoder(imgs, caps, cap_lens)
           targets = caps_sorted[:, 1:]
 
           scores_copy = scores.clone()
           scores = pack_padded_sequence(scores, decode_lengths, batch_first=True,enforce_sorted=False).data
           targets = pack_padded_sequence(targets, decode_lengths, batch_first=True,enforce_sorted=False).data
-
+          
+          sort_idx = sort_idx.cpu().numpy().tolist()
+          all_caps = [all_caps[i] for i in sort_idx]
           for j in range(len(all_caps)):
             img_caps = all_caps[j].tolist()
             img_captions = list(map(lambda caption: [word for word in caption if word != 1 and word !=0],img_caps))
@@ -162,6 +170,4 @@ def evaluate_test(test_loader,encoder, decoder, criterion,device,alpha_c):
       bleu2 = corpus_bleu(references, hypotheses, weights = (0.5, 0.5, 0, 0))
       bleu3 = corpus_bleu(references, hypotheses, weights = (1.0/3.0, 1.0/3.0, 1.0/3.0, 0))
       bleu4 = corpus_bleu(references, hypotheses)
-
     return bleu1,bleu2, bleu3, bleu4
-
