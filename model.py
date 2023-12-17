@@ -8,14 +8,11 @@ import torch.nn.functional as F
 class EncoderCNN(nn.Module):
     def __init__(self):
         super(EncoderCNN,self).__init__()
-        resnet = models.resnet101(weights=models.ResNet101_Weights.DEFAULT)
-        #selects all the layers of resnet model except the last two
+        resnet = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
         modules = list(resnet.children())[:-2]
-        #encapsulates the selected layers in nn.Sequential module
         self.resnet = nn.Sequential(*modules)
         self.fine_tune()
 
-    # fine tuning encoder's last layers if fine_tune is True
     def fine_tune(self,fine_tune = True):
         for param in self.resnet.parameters():
             param.requires_grad = False
@@ -23,26 +20,19 @@ class EncoderCNN(nn.Module):
         for child in list(self.resnet.children())[5:]:
             for param in child.parameters():
                 param.requires_grad = fine_tune
-                
+
     def forward(self,images):
         features = self.resnet(images)
-        #tensor of the image features is returned
         features = features.permute(0,2,3,1)
         return features
 
 
-#soft attention mechanism - BahdanauAttention
 class Attention(nn.Module):
     def __init__(self,encoder_dim, decoder_dim, attention_dim):
         super(Attention,self).__init__()
-  
-        #linear layer to transform encoder's input
+        #linear layer to transform encoder's & decoder's  output
         self.encoder_attn = nn.Linear(encoder_dim,attention_dim)
-        
-        #linear layer to transform decoder's hidden state
         self.decoder_attn = nn.Linear(decoder_dim,attention_dim)
-        
-        #linear layer to compute attention scores
         self.full_attn = nn.Linear(attention_dim,1)
 
     def forward(self,encoder_out, decoder_hidden):
@@ -66,9 +56,8 @@ class DecoderRNN(nn.Module):
         self.device = device
         self.encoder_dim = encoder_dim #feature size of encoded images
         self.dropout = dropout
-
         self.attention = Attention(encoder_dim,decoder_dim,attention_dim)
-        self.embbeding = nn.Embedding(vocab_size,embed_dim)
+        self.embedding = nn.Embedding(vocab_size,embed_dim)
         self.dropout = nn.Dropout(p = dropout)
 
         self.decode_step = nn.LSTMCell(embed_dim+encoder_dim,decoder_dim,bias = True)
@@ -86,12 +75,10 @@ class DecoderRNN(nn.Module):
         self.fc.weight.data.uniform_(-0.1,0.1)
 
     def init_hidden_state(self, encoder_out):
-        #intializes the hidden and cell states of the LSTM cell based on the mean of the encoder's output
         mean_encoder_out = encoder_out.mean(dim=1)
         h = self.init_h(mean_encoder_out)
         c = self.init_c(mean_encoder_out)
         return h, c
-        
     def forward(self,encoder_out,encoded_captions,caption_lens):
 
         batch_size = encoder_out.size(0)
@@ -99,6 +86,11 @@ class DecoderRNN(nn.Module):
         #flatten image
         encoder_out = encoder_out.view(batch_size,-1,self.encoder_dim)  #encoded image
         num_pixels = encoder_out.size(1)
+        
+        # sorting  input data by the decreasing caption length ( in order not to process <pads>)
+        caption_lens, sort_idx = caption_lens.sort(dim=0, descending=True)
+        encoder_out = encoder_out[sort_idx]
+        encoded_captions = encoded_captions[sort_idx]
 
         embeddings = self.embedding(encoded_captions)
 
@@ -110,7 +102,6 @@ class DecoderRNN(nn.Module):
         predictions = torch.zeros(batch_size, max(decode_lens),self.vocab_size).to(self.device)
         alphas = torch.zeros(batch_size, max(decode_lens), num_pixels).to(self.device)
 
-        # at each time-step generate a new word in the decoder based on the previous word and the attention weighted encoding
         for t in range(max(decode_lens)):
             batch_size_t = sum([l>t for l in decode_lens])
 
@@ -132,27 +123,4 @@ class DecoderRNN(nn.Module):
             predictions[:batch_size_t, t, :] = preds
             alphas[:batch_size_t, t, :] = alpha
 
-        return predictions, encoded_captions, decode_lens, alphas
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return predictions, encoded_captions, decode_lens, alphas,sort_idx
