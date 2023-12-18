@@ -74,7 +74,7 @@ The table below summarizes the results of two above mentioned papers and my best
 
 
 #### Project Structure
-- loader.py` - data preparation of my dataset for the model
+- `loader.py` - data preparation of my dataset for the model
 - `vocab.py` - creates vocabulary of my dataset with size 10000
 - `model.py` - contains Encoder, Attention and Decoder classes
 - `model_utils.py` contains function for training, evaluating, saving checkpoit for model when training/ saving best model
