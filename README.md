@@ -59,36 +59,41 @@ For evaluating my models I used the so-called BLEU metric which is actually a st
 
 
 
-For Model I, I basically implemented and used same parameters as in the Paper and did not fine-tune the encoder. However, somehow my results were different. A reason for that could be that I used Resnet50 as an Encoder while the paper uses VGGnet. In order to fine-tune my model and to somehow improve the results, I decided to fine-tune the used encoder. As seen in the table above this led to a slight improvement of the results. What was interesting during the training process of model II was that the model improved itself for the first few epochs and then it stagnated, so I decided,despite the fact, that early stopping was triggered, to continue training the model for a few other epochs. However, I changed some parameters, such as :
-- Decrease regularization parameter alpha_c and descreased the strength of regularization of the model
+For Model I, I basically implemented and used same parameters as in the Paper and did not fine-tune the encoder. However, somehow my results were different. A reason for that could be that I used Resnet50 as an Encoder while the paper uses VGGnet. In order to fine-tune my model and to somehow improve the results, I decided to fine-tune the used encoder. As seen in the table above this led to a slight improvement of the results. What was interesting during the training process of model II was that the model improved itself for the first few epochs and then it stagnated, so despite the fact that early stopping was triggered, I decided to continue training the model for a few other epochs. However, I changed some parameters, such as :
+- Decreased regularization parameter alpha_c  (descreased the strength of regularization of the model)
 - Decreased lr_decay_factor which might lead to the model converging more slowly
+  
 Even though BLEU-4 of model III seemed to increase during training, this was not the case when evaluating the model on test set.
 
-Soon after fitting model III, I realized that something could be slightly wrong with my implementation. In the beginning I had not sorted captions that were inputed to the Decoder based on their length, and I realized that this might really be important. Sorting captions allows them to be aligned with each-other and leads to the model focusing on important parts and not on the pad tokens.Therefore, for my model IV I implemented this change and as a reasult, there was an increase in the BLEU-4 metric. Last but not least, I decided to train the model again and this time fine-tuning the encoder and its results are represented in the last row of table above.
-The table below summarizes the results of two above mentioned papers and my best model:
+Soon after fitting model III, I realized that something could be slightly wrong with my implementation. In the beginning I had not sorted captions that were inputed to the Decoder based on their length, and I realized that this might really be important. Sorting captions allows them to be aligned with each-other and leads to the model focusing on important parts and not on the pad tokens.Therefore,  I implemented this change in model IV and as a result, there was an increase in the BLEU-4 metric. Last but not least, I decided to train the model again and this time also fine-tune the encoder.Its results are represented in the last row of table above.
+
+The table below summarizes the results of two papers I have mentioned above (VLP is state-of-the-art) and my best model:
 | Implementation  | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4|
 | ---  | ------| ------| ------|------|
 | Show, Attend and Tell | 66.7 | 43.4| 28.8 | 19.1 
 | VLP |-| -| -| 31.1
 |My Best Implementation|65.27 | 42.49 | 26.39 | 16.43
 
+Unfortunatey, I was hoping to achieve a BLEU-4 metric of 20, but the best I could get was 16.43.
+
 
 #### Project Structure
 - `loader.py` - data preparation of my dataset for the model
 - `vocab.py` - creates vocabulary of my dataset with size 10000
 - `model.py` - contains Encoder, Attention and Decoder classes
-- `model_utils.py` contains function for training, evaluating, saving checkpoit for model when training/ saving best model
-- `train&evaluate_model***.ipynb`- these notebooks 1 to 5 contain the models that I have trained in the course of this project. The first 3 models, as mentioned above, I had not sorted the captions. For the model IV and V this was the case. Model IV was trained without fine-tuning the Encoder, while model V was trained while fine-tuning the Encoder
-- `inference.py` and `inference_notebook.ipynb` - the first one contains the beam_search function for generating captions and the notebook shows how the models perform
-- Due to the large size, the trained models are not uploaded
+- `model_utils.py` - contains function for training, evaluating, function for saving best model
+- `train&evaluate_model***.ipynb`- the notebooks 1 to 5 are used for training the different models and evaluating them on test set
+- `inference.py`  -  the beam_search function for generating captions
+- `inference_notebook.ipynb` - notebook that displays models performance using beam_search function
+- `model_files` - files generated while training the models  which contain information on epochs, train loss, valid loss and BLEU scores
+- Due to the large size the trained models are not uploaded
 
 #### Actual Work-Breakdown Structure 
 - Dataset Collection - I used an already available dataset
-- Data Preparation - This part of the project, I had not taken into consideration previously, even though it plays the most important role in getting the project started. It took me up to 1.5 weeks to explore my data, and write the `loader.py` and `vocab.py` files.
-- Design and build of a model - As expected, it was the most challenging part as it was my first time creating a model from scratch. This part took me 2 weeks.
-- Train of the model - Took 5 days
-- Fine Tuning -  It took me  1 week
-
+- Data Preparation -  took me up to 1.5 weeks to explore my data, and write the `loader.py` and `vocab.py` files.
+- Design and build of a model - As expected, it was the most challenging part as it was my first time creating a model from scratch. This part took me 2.5 weeks.
+- Train of the model - 1 week
+- Fine Tuning - 1 week
 
 ### References
 
