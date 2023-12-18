@@ -85,7 +85,7 @@ Unfortunatey, I was hoping to achieve a BLEU-4 metric of 20, but the best I coul
 - `train&evaluate_model***.ipynb`- these notebooks 1 to 5 contain the models that I have trained in the course of this project. For the first 3 models, as mentioned above, I have not sorted the captions. For the model IV and V this was implemented. Model IV was trained without fine-tuning the Encoder, while model V was trained with fine-tuning the Encoder
 - `inference.py` ` -  the beam_search function for generating captions
 - `inference_notebook.ipynb` - notebook that displays models performance using beam_search function
-- `model_files` - contains information on model training such as epoch, train loss, valid loss and BLEU scores
+- `model_files` - file generated while training the models  which contain information on epochs, train loss, valid loss and BLEU scores
 - Due to the large size, the trained models are not uploaded
 
 #### Actual Work-Breakdown Structure 
