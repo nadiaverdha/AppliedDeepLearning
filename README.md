@@ -57,8 +57,6 @@ For evaluating my models I used the so-called BLEU metric which is actually a st
 
 
 
-
-
 For Model I, I basically implemented and used same parameters as in the Paper and did not fine-tune the encoder. However, somehow my results were different. A reason for that could be that I used Resnet50 as an Encoder while the paper uses VGGnet. In order to fine-tune my model and to somehow improve the results, I decided to fine-tune the used encoder. As seen in the table above this led to a slight improvement of the results. What was interesting during the training process of model II was that the model improved itself for the first few epochs and then it stagnated, so despite the fact that early stopping was triggered, I decided to continue training the model for a few other epochs. However, I changed some parameters, such as :
 - Decreased regularization parameter alpha_c  (descreased the strength of regularization of the model)
 - Decreased lr_decay_factor which might lead to the model converging more slowly
