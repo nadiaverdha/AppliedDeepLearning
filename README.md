@@ -59,7 +59,7 @@ For evaluating my models I used the so-called BLEU metric which is actually a st
 
 
 
-For Model I, I basically implemented and used same parameters as in the Paper and did not fine-tune the encoder. However, somehow my results were different. A reason for that could be that I used Resnet50 as an Encoder while the paper uses VGGnet. In order to fine-tune my model and to somehow improve the results, I decided to fine-tune the used encoder. As seen in the table above this led to a slight improvement of the results. What was interesting during the training process of model II was that the model improved itself for the first few epochs and then it stagnated, so I decided,despite the fact, that early stopping was triggered, to continue training the model for a few other epochs. However, I changed some parameters, such as :
+For Model I, I basically implemented and used same parameters as in the Paper and did not fine-tune the encoder. However, somehow my results were different. A reason for that could be that I used Resnet50 as an Encoder while the paper uses VGGnet. In order to fine-tune my model and to somehow improve the results, I decided to fine-tune the used encoder. As seen in the table above this led to a slight improvement of the results. What was interesting during the training process of model II was that the model improved itself for the first few epochs and then it stagnated, so despite the fact that early stopping was triggered, I decided to continue training the model for a few other epochs. However, I changed some parameters, such as :
 - Decreased regularization parameter alpha_c  (descreased the strength of regularization of the model)
 - Decreased lr_decay_factor which might lead to the model converging more slowly
   
@@ -83,14 +83,14 @@ Unfortunatey, I was hoping to achieve a BLEU-4 metric of 20, but the best I coul
 - `model.py` - contains Encoder, Attention and Decoder classes
 - `model_utils.py` - contains function for training, evaluating, function for saving best model
 - `train&evaluate_model***.ipynb`- the notebooks 1 to 5 are used for training the different models and evaluating them on test set
-- `inference.py` ` -  the beam_search function for generating captions
+- `inference.py`  -  the beam_search function for generating captions
 - `inference_notebook.ipynb` - notebook that displays models performance using beam_search function
 - `model_files` - files generated while training the models  which contain information on epochs, train loss, valid loss and BLEU scores
-- Due to the large size, the trained models are not uploaded
+- Due to the large size the trained models are not uploaded
 
 #### Actual Work-Breakdown Structure 
 - Dataset Collection - I used an already available dataset
-- Data Preparation - This part of the project, I had not taken into consideration previously, even though it plays the most important role in getting the project started. It took me up to 1.5 weeks to explore my data, and write the `loader.py` and `vocab.py` files.
+- Data Preparation -  took me up to 1.5 weeks to explore my data, and write the `loader.py` and `vocab.py` files.
 - Design and build of a model - As expected, it was the most challenging part as it was my first time creating a model from scratch. This part took me 2.5 weeks.
 - Train of the model - 1 week
 - Fine Tuning - 1 week
