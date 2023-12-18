@@ -80,7 +80,7 @@ The table below summarizes the results of two above mentioned papers and my best
 - `model_utils.py` contains function for training, evaluating, saving checkpoit for model when training/ saving best model
 - `train&evaluate_model***.ipynb`- these notebooks 1 to 5 contain the models that I have trained in the course of this project. The first 3 models, as mentioned above, I had not sorted the captions. For the model IV and V this was the case. Model IV was trained without fine-tuning the Encoder, while model V was trained while fine-tuning the Encoder
 - `inference.py` and `inference_notebook.ipynb` - the first one contains the beam_search function for generating captions and the notebook shows how the models perform
-
+- Due to the large size, the trained models are not uploaded
 
 #### Actual Work-Breakdown Structure 
 - Dataset Collection - I used an already available dataset
