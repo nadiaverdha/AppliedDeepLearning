@@ -73,6 +73,13 @@ The table below summarizes the results of two above mentioned papers and my best
 |My Best Implementation|65.27 | 42.49 | 26.39 | 16.43
 
 
+#### Project Structure
+- loader.py` - data preparation of my dataset for the model
+- `vocab.py` - creates vocabulary of my dataset with size 10000
+- `model.py` - contains Encoder, Attention and Decoder classes
+- `model_utils.py` contains function for training, evaluating, saving checkpoit for model when training/ saving best model
+- `train&evaluate_model***.ipynb`- these notebooks 1 to 5 contain the models that I have trained in the course of this project. The first 3 models, as mentioned above, I had not sorted the captions. For the model IV and V this was the case. Model IV was trained without fine-tuning the Encoder, while model V was trained while fine-tuning the Encoder
+- `inference.py` and `inference_notebook.ipynb` - the first one contains the beam_search function for generating captions and the notebook shows how the models perform
 
 
 #### Actual Work-Breakdown Structure 
