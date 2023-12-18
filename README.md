@@ -67,7 +67,7 @@ Even though BLEU-4 of model III seemed to increase during training, this was not
 
 Soon after fitting model III, I realized that something could be slightly wrong with my implementation. In the beginning I had not sorted captions that were inputed to the Decoder based on their length, and I realized that this might really be important. Sorting captions allows them to be aligned with each-other and leads to the model focusing on important parts and not on the pad tokens.Therefore,  I implemented this change in model IV and as a result, there was an increase in the BLEU-4 metric. Last but not least, I decided to train the model again and this time also fine-tune the encoder.Its results are represented in the last row of table above.
 
-The table below summarizes the results of two papers I have mentioned above (VLP) is state-of-the-art and my best model:
+The table below summarizes the results of two papers I have mentioned above (VLP is state-of-the-art) and my best model:
 | Implementation  | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4|
 | ---  | ------| ------| ------|------|
 | Show, Attend and Tell | 66.7 | 43.4| 28.8 | 19.1 
