@@ -202,3 +202,4 @@ ypy-websocket=0.8.2=pypi_0
 zeromq=4.3.4=h23ab428_0
 zlib=1.2.13=h4dc903c_0
 zstd=1.5.5=hc035e20_0
+streamlit
