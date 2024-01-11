@@ -14,7 +14,8 @@ decoder_5 = checkpoint_5['decoder'].to(device)
 vocab = Vocabulary(vocab_file='./vocab10000.txt', vocab_size=10000)
 vocab.load_vocab()
 st.set_page_config(layout="wide")
-st.markdown("<h1 style='text-align: center; color: white;'>Deep Learning - Image Captioning</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: white;'>Deep Learning - Image Captioning</h1>",
+            unsafe_allow_html=True)
 st.markdown("<h2 style='text-align: center; color: white;'>Create image captions at any time! &#128444 &#128394</h2>",
             unsafe_allow_html=True)
 
