@@ -11,4 +11,3 @@ os.makedirs(output_folder, exist_ok=True)
 
 for image_path in image_paths:
     shutil.copy(image_path, output_folder)
-
