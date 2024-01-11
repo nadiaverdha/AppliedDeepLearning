@@ -6,9 +6,10 @@ import regex as re
 from nltk.tokenize import RegexpTokenizer
 import csv
 
+
 class Vocabulary():
-    def __init__(self,sentence_splitter = None, vocab_file='vocab.txt',
-                 captions_file='./flickr30k_processed/train.csv',vocab_size = 5000):
+    def __init__(self, sentence_splitter=None, vocab_file='vocab.txt',
+                 captions_file='./flickr30k_processed/train.csv', vocab_size=5000):
         self.captions_file = captions_file
         self.vocab_file = vocab_file
         # predefined tokens
@@ -29,7 +30,7 @@ class Vocabulary():
             sentence_splitter = RegexpTokenizer(word_regex).tokenize
         self.splitter = sentence_splitter
 
-    def add_caption(self,caption):
+    def add_caption(self, caption):
         self.counter.update(self.splitter(caption))
 
     def build_vocab(self):
@@ -40,7 +41,7 @@ class Vocabulary():
                 caption = line.strip().lower().split(',')[1]
                 self.add_caption(caption)
 
-        #adding predefined tokens to the vocab
+        # adding predefined tokens to the vocab
         self.index2word[self.PADDING_INDEX] = '<pad>'
         self.word2index['<pad>'] = self.PADDING_INDEX
         self.index2word[self.SOS] = '<sos>'
@@ -50,22 +51,21 @@ class Vocabulary():
         self.index2word[self.UNKNOWN_WORD_INDEX] = '<unk>'
         self.word2index['<unk>'] = self.UNKNOWN_WORD_INDEX
 
-        #most common words
+        # most common words
         words = self.counter.most_common(self.vocab_size - 4)
 
-        for idx,(word,_) in enumerate(words):
+        for idx, (word, _) in enumerate(words):
             self.word2index[word] = idx + 4
-            self.index2word[idx+4] = word
+            self.index2word[idx + 4] = word
         self.size = len(self.word2index)
 
-    def idx_to_word(self,index):
+    def idx_to_word(self, index):
         try:
-             return self.index2word[index]
+            return self.index2word[index]
         except KeyError:
             return self.UNKNOWN_WORD_INDEX
 
-
-    def word_to_idx(self,word):
+    def word_to_idx(self, word):
         try:
             return self.word2index[word]
         except KeyError:
@@ -86,10 +86,3 @@ class Vocabulary():
                 word, index = line[0], line[1]
                 self.word2index[word] = int(index)
                 self.index2word[int(index)] = word
-
-
-
-
-
-
-
