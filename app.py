@@ -49,6 +49,6 @@ for i in range(0, len(st.session_state.uploaded_images), 3):
             caption = beam_search(encoder_5, decoder_5, image_path, vocab=vocab, vocab_size=10000, device=device)
             col.image(image, caption='', width=None, use_column_width=None, clamp=False,
                       channels="RGB", output_format="auto")
-            col.write(f"<p style='font-size: large; text-align: left; color: white;'>{caption.upper()}</p>",
+            col.write(f"<h3 style='font-size: +1; text-align: left; color: white;'>{caption.upper()}</h2>",
                       unsafe_allow_html=True)
     st.write("\n")
