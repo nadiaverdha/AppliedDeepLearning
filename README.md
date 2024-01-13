@@ -98,7 +98,7 @@ Unfortunatey, I was hoping to achieve a BLEU-4 metric of 20, but the best I coul
 
 For this part of the assignment a small demo application was implemented to show the solution of the chosen task. For that I created a small website application using Streamlit library that can be found in `app.py` file. In order to get the application running, the user needs to run the following command: `streamlit run app.py`. Unfortuntately, due to size of the model larger than 25MB, it cannot be uploaded as a realease to this GitHub repo. Therefore, I decided to provide everyone that wants to give it a try with a download link https://drive.google.com/file/d/1-06OhCe1OSY69aLAs7tvbbVBy2jtCCPZ/view?usp=sharing .
 
-
+As part of the assignment III, project report and presentation are also added to the repository.
 ### References
 
 ```
