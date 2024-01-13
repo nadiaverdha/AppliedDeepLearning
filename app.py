@@ -5,9 +5,13 @@ from inference import beam_search
 from torchvision.transforms import v2
 from PIL import Image
 from vocab import Vocabulary
+import gdown
+import os
+import requests
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 path = './flickr30k_processed/images'
+
 checkpoint_5 = torch.load('./image_captioning_best_5.pth', map_location=device)
 encoder_5 = checkpoint_5['encoder'].to(device)
 decoder_5 = checkpoint_5['decoder'].to(device)
@@ -39,8 +43,12 @@ for i in range(0, len(st.session_state.uploaded_images), 3):
             image_path = st.session_state.uploaded_images[i + j]
             image = Image.open(image_path)
             image = image.resize((600, 400))
-            col.image(image, caption=beam_search(encoder_5, decoder_5, image_path, vocab=vocab, vocab_size=10000,
-                                                 device=device), width=None, use_column_width=None, clamp=False,
+            # col.image(image, caption=beam_search(encoder_5, decoder_5, image_path, vocab=vocab, vocab_size=10000,
+            #                                      device=device), width=None, use_column_width=None, clamp=False,
+            #           channels="RGB", output_format="auto")
+            caption = beam_search(encoder_5, decoder_5, image_path, vocab=vocab, vocab_size=10000, device=device)
+            col.image(image, caption='', width=None, use_column_width=None, clamp=False,
                       channels="RGB", output_format="auto")
-
+            col.write(f"<p style='font-size: large; text-align: left; color: white;'>{caption.upper()}</p>",
+                      unsafe_allow_html=True)
     st.write("\n")
